@@ -1,0 +1,213 @@
+.cart-page-wrapper {
+  background-color: #f8f8f8;
+  padding: 40px 5%;
+  font-family: Arial, sans-serif;
+  min-height: 60vh;
+}
+
+/* Search Bar */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  position: relative;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: 1px solid #e0e0e0;
+  border-right: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+.search-button {
+  padding: 15px 20px;
+  border: 1px solid #c4d6a4;
+  background-color: #c4d6a4;
+  color: #333;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+}
+
+.cart-icon-wrapper {
+  margin-left: 25px;
+  color: #555;
+}
+
+/* Main Content Layout */
+.cart-main-content {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cart-items-section {
+  flex: 2.5; /* Takes more space */
+}
+
+.order-summary-section {
+  flex: 1.5; /* Takes less space */
+}
+
+/* Cart Items List */
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-weight: bold;
+  padding: 0 10px 15px 10px;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+}
+
+.header-product { flex-basis: 50%; }
+.header-quantity { flex-basis: 20%; text-align: center; }
+.header-subtotal { flex-basis: 20%; text-align: center; }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.product-details {
+  flex-basis: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.product-image-placeholder {
+  width: 80px;
+  height: 80px;
+  background-color: #e9f5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+.product-name { font-size: 16px; font-weight: bold; color: #333; }
+.product-category { font-size: 14px; color: #888; margin: 4px 0; }
+.product-price { font-size: 14px; color: #888; }
+
+.product-quantity {
+  flex-basis: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantity-btn {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 18px;
+}
+.quantity-input {
+  width: 40px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+  padding: 5px 0;
+  font-size: 16px;
+}
+
+.product-subtotal {
+  flex-basis: 20%;
+  text-align: center;
+  font-weight: bold;
+  color: #444;
+}
+
+.product-remove {
+  flex-basis: 10%;
+  text-align: right;
+}
+.remove-btn {
+  border: none;
+  background: none;
+  color: #888;
+  cursor: pointer;
+}
+.remove-btn:hover { color: #d9534f; }
+
+/* Order Summary */
+.summary-card {
+  background-color: #fff;
+  padding: 25px;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.summary-header h2 { font-size: 20px; margin: 0; color: #333; }
+.summary-header span { color: #666; }
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.summary-divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.checkout-btn, .continue-shopping-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+}
+
+.checkout-btn {
+  background-color: #c4d6a4;
+  color: #fff;
+  border: none;
+  margin-bottom: 15px;
+}
+.checkout-btn:hover { background-color: #b3c593; }
+
+.continue-shopping-btn {
+  background-color: #fff;
+  color: #666;
+  border: 1px solid #ddd;
+}
+.continue-shopping-btn:hover { background-color: #f9f9f9; }

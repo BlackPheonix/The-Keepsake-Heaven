@@ -1,0 +1,160 @@
+.order-history-container {
+  display: flex;
+  background-color: #d9e9c8;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.sidebar {
+  background-color: white;
+  width: 25%;
+  padding: 30px 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 200px;
+  margin-bottom: 40px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar nav ul li {
+  padding: 15px;
+  font-size: 16px;
+  color: #4b5e28;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.sidebar nav ul li.active,
+.sidebar nav ul li:hover {
+  font-weight: bold;
+  color: #2c3a14;
+}
+
+.content {
+  background-color: white;
+  width: 68%;
+  border-top-right-radius: 70px;
+  border-bottom-right-radius: 70px;
+  padding: 40px 60px;
+  position: relative;
+}
+
+.header h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.header p {
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #555;
+}
+
+.signout-btn {
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  background-color: #8b2e24;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.signout-btn:hover {
+  background-color: #72231c;
+  transform: scale(1.03);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.order-item:hover {
+  background-color: #e9e9e9;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+}
+
+.status.delivered {
+  background-color: #2e7d32;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.order-items {
+  list-style: none;
+  padding: 0;
+}
+
+.order-items li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}

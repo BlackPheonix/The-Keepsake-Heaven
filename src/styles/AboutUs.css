@@ -1,0 +1,70 @@
+/* This file styles the main content area of the About Us page */
+
+.about-us-container {
+  /* This container holds the banner and the content below it. */
+  background-color: #ffffff;
+  padding-bottom: 50px; /* Adds space before the footer starts */
+}
+
+.banner-section {
+  width: 100%;
+  line-height: 0; /* Prevents extra space below the image */
+}
+
+.banner-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.content-section {
+  /* This wrapper helps in positioning the elements correctly */
+  position: relative;
+}
+
+.about-us-title-wrapper {
+  /* This wrapper is used to center the title block */
+  text-align: center;
+}
+
+.about-us-title {
+  /* This is the "ABOUT US" title block that overlaps the banner */
+  display: inline-block;
+  background-color: #ffffff;
+  padding: 15px 40px;
+  border: 1px solid #f0f0f0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-top: -50px; /* This is the key to pulling the title up over the banner */
+  position: relative; /* Ensures it sits on top */
+  z-index: 2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.about-us-description {
+  /* This is the light green box containing the text */
+  background-color: #e9f5e1; /* Exact light green from the image */
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding: 50px 60px;
+  color: #3d5229; /* Exact dark green text color from the image */
+  font-size: 17px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.about-us-description p {
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
+.about-us-description p:last-child {
+  margin-bottom: 0;
+}
+
+.about-us-description strong {
+  /* Styles for the bolded words */
+  font-weight: 700;
+  color: #3d5229;
+}
