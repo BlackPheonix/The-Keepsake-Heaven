@@ -16,6 +16,7 @@ import AccountDetails from "./pages/AccountDetails";
 import PaymentMethods from "./pages/PaymentMethods";
 import OrderHistory from "./pages/OrderHistory";
 import Product from './pages/Product';
+import Categories from './pages/Categories';
 
 
 import './App.css';
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/categories" element={<Categories />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<AboutUs />} />
