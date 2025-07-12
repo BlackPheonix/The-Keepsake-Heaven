@@ -1,6 +1,6 @@
 import React from 'react';
-import { FiStar } from 'react-icons/fi';
 import './FeaturedProducts.css';
+import { Link } from 'react-router-dom';
 
 const products = [
   { name: 'Luxury Gift Box', price: 29.99, img: '/images/Box.jpg', rating: 5 },
@@ -21,17 +21,13 @@ const FeaturedProducts = () => (
           <img src={prod.img} alt={prod.name} />
           <h3>{prod.name}</h3>
           <p className="price">${prod.price.toFixed(2)}</p>
-          <div className="stars">
-            {[...Array(5)].map((_, j) =>
-              <FiStar key={j} color={j < prod.rating ? '#ffd700' : '#ddd'} />
-            )}
-          </div>
+          <p className="stars">⭐⭐⭐⭐⭐</p>
           <button className="add-to-cart-btn">Add to Cart</button>
         </div>
       ))}
     </div>
     <div className="view-all-container">
-      <button className="view-all-btn">View All Products</button>
+      <Link to="/shop" className="view-all-btn">View All Products</Link>
     </div>
   </section>
 );

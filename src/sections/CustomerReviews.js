@@ -1,5 +1,4 @@
 import React from 'react';
-import { FiStar } from 'react-icons/fi';
 import './CustomerReviews.css';
 
 const reviews = [
@@ -16,11 +15,7 @@ const CustomerReviews = () => (
     <div className="reviews-grid">
       {reviews.map((r, i) => (
         <div className="review-card" key={i}>
-          <div className="stars">
-            {[...Array(5)].map((_, j) =>
-              <FiStar key={j} color={j < r.rating ? '#ffd700' : '#ddd'} />
-            )}
-          </div>
+          <p className="stars">⭐⭐⭐⭐⭐</p>
           <blockquote className="review-quote">"{r.quote}"</blockquote>
           <div className="review-customer">{r.customer}</div>
         </div>

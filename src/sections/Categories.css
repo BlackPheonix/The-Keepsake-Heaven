@@ -44,3 +44,22 @@
 .explore-btn:hover {
   background: #30b3a6;
 }
+
+.view-all-container {
+  text-align: center;
+  margin-top: 1.3rem;
+}
+.view-all-cat {
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 21px;
+  padding: 0.85rem 2.7rem;
+  font-weight: 600;
+  font-size: 1.04rem;
+  cursor: pointer;
+  transition: background .22s;
+}
+.view-all-cat:hover {
+  background: #ff5252;
+}

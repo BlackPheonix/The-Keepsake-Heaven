@@ -133,10 +133,6 @@ export default function UserProfile() {
           ))}
         </div>
       </section>
-
-      <footer>
-        © 2025 The Keepsake Heaven Pvt Ltd • All rights reserved.
-      </footer>
     </div>
   );
 }

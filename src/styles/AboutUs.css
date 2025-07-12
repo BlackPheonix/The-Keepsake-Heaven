@@ -1,70 +1,62 @@
-/* This file styles the main content area of the About Us page */
-
-.about-us-container {
-  /* This container holds the banner and the content below it. */
-  background-color: #ffffff;
-  padding-bottom: 50px; /* Adds space before the footer starts */
+.aboutus-outer {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.banner-section {
-  width: 100%;
-  line-height: 0; /* Prevents extra space below the image */
-}
-
-.banner-image {
-  width: 100%;
-  height: auto;
+.aboutus-banner img {
+  width: 100vw;
+  max-height: 260px;
   object-fit: cover;
-}
-
-.content-section {
-  /* This wrapper helps in positioning the elements correctly */
-  position: relative;
-}
-
-.about-us-title-wrapper {
-  /* This wrapper is used to center the title block */
-  text-align: center;
-}
-
-.about-us-title {
-  /* This is the "ABOUT US" title block that overlaps the banner */
-  display: inline-block;
-  background-color: #ffffff;
-  padding: 15px 40px;
-  border: 1px solid #f0f0f0;
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
-  margin-top: -50px; /* This is the key to pulling the title up over the banner */
-  position: relative; /* Ensures it sits on top */
-  z-index: 2;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.about-us-description {
-  /* This is the light green box containing the text */
-  background-color: #e9f5e1; /* Exact light green from the image */
-  max-width: 800px;
-  margin: 40px auto 0;
-  padding: 50px 60px;
-  color: #3d5229; /* Exact dark green text color from the image */
-  font-size: 17px;
-  line-height: 1.8;
-  text-align: center;
-}
-
-.about-us-description p {
-  margin-top: 0;
-  margin-bottom: 2em;
-}
-
-.about-us-description p:last-child {
+  display: block;
   margin-bottom: 0;
 }
 
-.about-us-description strong {
-  /* Styles for the bolded words */
-  font-weight: 700;
-  color: #3d5229;
+.aboutus-tab {
+  margin: -25px auto 0 auto;
+  background: #fff;
+  color: #222;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.7em 2.5em;
+  border-radius: 6px;
+  box-shadow: 0 4px 24px rgba(90,90,90,0.04);
+  text-align: center;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+.aboutus-center-box {
+  margin: 2.5em auto 0 auto;
+  background: #e7f4e6;
+  color: #215b2d;
+  border-radius: 8px;
+  max-width: 620px;
+  padding: 2em 2.6em;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  text-align: center;
+}
+
+.aboutus-center-box p {
+  margin-bottom: 1.2em;
+  line-height: 1.75;
+}
+
+@media (max-width: 700px) {
+  .aboutus-banner img {
+    max-height: 140px;
+  }
+  .aboutus-center-box {
+    padding: 1.2em 0.8em;
+    font-size: 1rem;
+  }
+  .aboutus-tab {
+    font-size: 1rem;
+    padding: 0.5em 1.2em;
+  }
 }

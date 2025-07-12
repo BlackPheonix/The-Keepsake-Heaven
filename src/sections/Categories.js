@@ -1,5 +1,6 @@
 import React from 'react';
 import './Categories.css';
+import { Link } from 'react-router-dom';
 
 const categories = [
   { name: 'Toys', img: '/images/Toy.jpg' },
@@ -24,6 +25,9 @@ const Categories = () => (
           <button className="explore-btn">Explore</button>
         </div>
       ))}
+    </div>
+    <div className="view-all-container">
+      <Link to="/shop" className="view-all-cat">View All Categories</Link>
     </div>
   </section>
 );

@@ -1,18 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom"; 
 import "./SignIn.css";
 import toyshop from "../assets/toyshop.jpg";
-import logo from "../assets/logo.png";
 
 export default function SignIn() {
-  return (
-    <div className="container">
-      <header>
-        <div className="logo">
-          <img src={logo} alt="Logo" />
-        </div>
-      </header>
+  const navigate = useNavigate();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can add authentication logic here
+    navigate("/profile");
+  };
+
+  return (
       <main>
         <div className="auth-container">
           <div className="auth-card">
@@ -21,7 +21,7 @@ export default function SignIn() {
             </div>
             <div className="auth-form">
               <h2>Sign In</h2>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <input type="email" placeholder="Email Address" required />
                 </div>
@@ -50,10 +50,5 @@ export default function SignIn() {
           </div>
         </div>
       </main>
-
-      <footer>
-        © 2025 The Keepsake Heaven Pvt Ltd • All rights reserved.
-      </footer>
-    </div>
   );
 }
