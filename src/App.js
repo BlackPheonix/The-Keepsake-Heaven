@@ -16,8 +16,7 @@ import AccountDetails from "./pages/AccountDetails";
 import PaymentMethods from "./pages/PaymentMethods";
 import OrderHistory from "./pages/OrderHistory";
 import Product from './pages/Product';
-import Categories from "./sections/Categories";
-import ContactUs from './pages/ContactUs';
+
 
 import './App.css';
 
@@ -40,8 +39,6 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/product/:id" element={<Product />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/contact" element={<ContactUs />} />
       </Routes>
       <Footer />
     </Router>
