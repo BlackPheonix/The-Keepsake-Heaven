@@ -1,5 +1,5 @@
 // Sample product data
-const sampleProducts = [
+const sampleProducts = [ 
   {
     id: 1,
     name: 'Premium Rose Bouquet',

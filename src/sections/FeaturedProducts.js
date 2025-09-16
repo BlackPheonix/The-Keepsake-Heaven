@@ -1,35 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './FeaturedProducts.css';
 import { Link } from 'react-router-dom';
+import { getAllProducts } from '../firebase/firebaseUtils';
+import { FiStar } from 'react-icons/fi';
 
-const products = [
-  { name: 'Luxury Gift Box', price: 29.99, img: '/images/Box.jpg', rating: 5 },
-  { name: 'Handmade Jewelry', price: 49.99, img: '/images/Ornaments.jpg', rating: 4 },
-  { name: 'Soft Teddy Bear', price: 19.99, img: '/images/Toy.jpg', rating: 5 },
-  { name: 'Branded Perfume', price: 15.99, img: '/images/Perfumes.jpg', rating: 3 },
-  { name: 'Choco', price: 24.99, img: '/images/Food.jpg', rating: 4 },
-  { name: 'Flower Bouquet', price: 34.99, img: '/images/Floral.jpg', rating: 5 }
-];
+const FeaturedProducts = () => {
+  const [mostRated, setMostRated] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const FeaturedProducts = () => (
-  <section className="featured-products">
-    <h2 className="section-title">Featured Products</h2>
-    <p className="section-subtitle">Our most loved gifts that everyone adores</p>
-    <div className="products-grid">
-      {products.map((prod, i) => (
-        <div key={i} className="product-card">
-          <img src={prod.img} alt={prod.name} />
-          <h3>{prod.name}</h3>
-          <p className="price">${prod.price.toFixed(2)}</p>
-          <p className="stars">⭐⭐⭐⭐⭐</p>
-          <button className="add-to-cart-btn">Add to Cart</button>
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      const res = await getAllProducts();
+      if (res.success) {
+        // Sort by avgRating (desc), then by numRatings (desc), then by name (asc for stability)
+        const sorted = res.data
+          .filter(p => typeof p.avgRating === 'number' && typeof p.numRatings === 'number')
+          .sort((a, b) => {
+            if ((b.avgRating || 0) !== (a.avgRating || 0))
+              return (b.avgRating || 0) - (a.avgRating || 0);
+            if ((b.numRatings || 0) !== (a.numRatings || 0))
+              return (b.numRatings || 0) - (a.numRatings || 0);
+            return (a.name || '').localeCompare(b.name || '');
+          })
+          .slice(0, 6); // Top 6
+        setMostRated(sorted);
+      } else {
+        setMostRated([]);
+      }
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
+
+  return (
+    <section className="featured-products">
+      <h2 className="section-title">Most Rated Products</h2>
+      <p className="section-subtitle">Our top-rated gifts that everyone loves</p>
+      {loading ? (
+        <div className="loading" style={{ textAlign: 'center', padding: '2rem' }}>Loading...</div>
+      ) : (
+        <div className="products-grid">
+          {mostRated.map((prod, i) => (
+            <div key={prod.id || i} className="product-card">
+              <img
+                src={prod.image || (prod.images && prod.images[0]) || '/images/placeholder.png'}
+                alt={prod.name}
+                className="product-image"
+                onError={e => { e.target.src = '/images/placeholder.png'; }}
+              />
+              <h3>{prod.name}</h3>
+              <p className="price">
+                LKR {typeof prod.price === "number"
+                  ? prod.price.toLocaleString(undefined, { minimumFractionDigits: 2 })
+                  : "0.00"}
+              </p>
+              <p className="stars">
+                {[...Array(5)].map((_, starIdx) => (
+                  <FiStar key={starIdx}
+                    className={starIdx < Math.round(prod.avgRating || 0) ? 'star-filled' : 'star-empty'}
+                  />
+                ))}
+                <span style={{ fontSize: 13, color: '#888', marginLeft: 7 }}>
+                  {prod.numRatings ? `(${prod.numRatings})` : ''}
+                </span>
+              </p>
+              <Link to={`/product/${prod.id}`}>
+                <button className="add-to-cart-btn">View Product</button>
+              </Link>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-    <div className="view-all-container">
-      <Link to="/shop" className="view-all-btn">View All Products</Link>
-    </div>
-  </section>
-);
+      )}
+      <div className="view-all-container">
+        <Link to="/shop" className="view-all-btn">View All Products</Link>
+      </div>
+    </section>
+  );
+};
 
 export default FeaturedProducts;

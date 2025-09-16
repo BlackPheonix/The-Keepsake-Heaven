@@ -1,48 +1,95 @@
-import React, { useState } from 'react';
+// Shop.jsx
+import React, { useState, useEffect } from 'react';
 import { FiStar, FiSearch, FiFilter } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/FirebaseConfig';
 import './Shop.css';
+import { getAllProducts, addToCart } from '../firebase/firebaseUtils';
 
-const allProducts = [
-  { name: 'Luxury Gift Box', price: 29.99, img: '/images/Box.jpg', rating: 5, category: 'Gift Box' },
-  { name: 'Handmade Jewelry', price: 49.99, img: '/images/Ornaments.jpg', rating: 4, category: 'Jewelry' },
-  { name: 'Soft Teddy Bear', price: 19.99, img: '/images/Toy.jpg', rating: 5, category: 'Plush' },
-  { name: 'Branded Perfume', price: 15.99, img: '/images/Perfumes.jpg', rating: 3, category: 'Perfume' },
-  { name: 'Choco', price: 24.99, img: '/images/Food.jpg', rating: 4, category: 'Food' },
-  { name: 'Flower Bouquet', price: 34.99, img: '/images/Floral.jpg', rating: 5, category: 'Floral' },
-  { name: 'Gift Mug', price: 12.99, img: '/images/mug.jpg', rating: 4, category: 'Home' },
-  { name: 'Personalized Cushion', price: 25.49, img: '/images/cushion.jpg', rating: 5, category: 'Home' },
-  { name: 'Greeting Card Set', price: 7.99, img: '/images/cards.jpg', rating: 4, category: 'Stationery' },
-  { name: 'Wooden Keepsake', price: 39.99, img: '/images/wood.jpg', rating: 5, category: 'Keepsake' },
-  { name: 'Love Jar Notes', price: 9.99, img: '/images/jar.jpg', rating: 3, category: 'Keepsake' },
-  { name: 'Miniature Couple Frame', price: 22.99, img: '/images/frame.jpg', rating: 4, category: 'Home' },
-  { name: 'Bath Set', price: 27.49, img: '/images/bath.jpg', rating: 4, category: 'Personal Care' },
-  { name: 'Rose Teddy', price: 44.99, img: '/images/roseteddy.jpg', rating: 5, category: 'Plush' },
-  { name: 'LED Night Light', price: 19.49, img: '/images/nightlight.jpg', rating: 4, category: 'Home' },
-  { name: 'Customized Keychain', price: 8.99, img: '/images/keychain.jpg', rating: 3, category: 'Accessories' },
-  { name: 'Leather Wallet', price: 31.99, img: '/images/wallet.jpg', rating: 5, category: 'Accessories' },
-  { name: 'Art Candle Set', price: 14.49, img: '/images/candles.jpg', rating: 4, category: 'Home' },
-  { name: 'Decorative Photo Album', price: 26.79, img: '/images/album.jpg', rating: 5, category: 'Keepsake' },
-  { name: 'Mini Plant Gift', price: 13.59, img: '/images/plant.jpg', rating: 4, category: 'Floral' }
+const categories = [
+  'All',
+  'Gift Box / Personalized Gifts',
+  'Jewelry / Watches',
+  'Beauty/Cosmetics & Skin Care',
+  'Chocolates',
+  'Flowers',
+  'Soft Toys',
+  'Greeting Cards / Handmade Greeting Cards',
+  'Bags/Fashion & Shoes',
+  'Perfumes & Fragrances',
+  'Home Decor / Homewares & Fancy',
+  'Gift Vouchers',
+  'Resin Products',
 ];
 
-const categories = ['All', 'Gift Box / Personalized Gifts', 'Jewelry / Watches', 'Beauty/Cosmetics & Skin Care', 'Chocolates', 'Flowers', 'soft Toys/Kids & Baby', 'Handmade Greeting Cards', 'Hand Bags/Fashion & Shoes', 'Perfumes&Fragrances', 'Home Decor & Homewares', 'Gift Vouchers','Resin Products'];
-
 const Shop = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get category and search from URL if present
+  const queryParams = new URLSearchParams(location.search);
+  const initialCategory = queryParams.get('category');
+  const initialSearch = queryParams.get('search') || '';
+
+  const [allProducts, setAllProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState(['All']);
-  const [priceRange, setPriceRange] = useState([0, 50]);
+  const [selectedCategories, setSelectedCategories] = useState(
+    initialCategory ? [initialCategory] : ['All']
+  );
+  const [priceRange, setPriceRange] = useState([0, 100000]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [addingToCart, setAddingToCart] = useState({});
+
+  // Auth state listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Sync category and search term from URL
+  useEffect(() => {
+    if (initialCategory) {
+      setSelectedCategories([initialCategory]);
+    }
+    if (initialSearch) {
+      setSearchTerm(initialSearch.toLowerCase());
+    }
+  }, [initialCategory, initialSearch]);
+
+  // Fetch all products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      const result = await getAllProducts(); //
+      if (result.success) {
+        setAllProducts(result.data);
+      } else {
+        setAllProducts([]);
+      }
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchTerm(e.target.elements.search.value.toLowerCase());
+    const newSearch = e.target.elements.search.value.toLowerCase();
+    setSearchTerm(newSearch);
+    navigate(`/shop?search=${encodeURIComponent(newSearch)}`);
   };
 
   const handleCategoryChange = (category) => {
     if (category === 'All') {
       setSelectedCategories(['All']);
+      if (queryParams.get('category')) {
+        navigate('/shop');
+      }
     } else {
       let updatedCategories = selectedCategories.includes('All')
         ? [category]
@@ -51,6 +98,12 @@ const Shop = () => {
         : [...selectedCategories, category];
       if (updatedCategories.length === 0) updatedCategories = ['All'];
       setSelectedCategories(updatedCategories);
+
+      if (updatedCategories.length === 1 && updatedCategories[0] !== 'All') {
+        navigate(`/shop?category=${encodeURIComponent(updatedCategories[0])}`);
+      } else {
+        navigate('/shop');
+      }
     }
   };
 
@@ -70,28 +123,87 @@ const Shop = () => {
     setIsSidebarOpen(false);
   };
 
+  const handleAddToCart = async (product) => {
+    if (!user || !auth.currentUser) {
+      alert('Please sign in to add items to cart');
+      navigate('/signin');
+      return;
+    }
+
+    setAddingToCart((prev) => ({ ...prev, [product.id]: true }));
+
+    try {
+      const cartItem = {
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image || (product.images && product.images[0]) || '/images/placeholder.png',
+        category: product.category,
+        quantity: 1,
+      };
+
+      const response = await addToCart(user.uid, cartItem); //
+      if (response.success) {
+        alert('Item added to cart successfully!');
+      } else {
+        alert('Failed to add item to cart: ' + (response.error || 'Unknown error'));
+      }
+    } catch (error) {
+      alert('An error occurred: ' + error.message);
+    } finally {
+      setAddingToCart((prev) => ({ ...prev, [product.id]: false }));
+    }
+  };
+
   const filteredProducts = allProducts.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+    const matchesSearch =
+      !searchTerm ||
+      product.name?.toLowerCase().includes(searchTerm) ||
+      product.description?.toLowerCase().includes(searchTerm);
+
     const matchesCategory =
-      selectedCategories.includes('All') || selectedCategories.includes(product.category);
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-    const matchesRating = selectedRatings.length === 0 || selectedRatings.includes(product.rating);
+      selectedCategories.includes('All') ||
+      selectedCategories.includes(product.category);
+
+    const matchesPrice =
+      typeof product.price === 'number' &&
+      product.price >= priceRange[0] &&
+      product.price <= priceRange[1];
+
+    // FIX: Corrected rating filter logic
+    const matchesRating =
+      selectedRatings.length === 0 ||
+      selectedRatings.some(minRating => Math.round(product.avgRating || 0) >= minRating);
+
     return matchesSearch && matchesCategory && matchesPrice && matchesRating;
   });
 
-  const sectionTitle = selectedCategories.includes('All') || selectedCategories.length === 0
-    ? 'All Products'
-    : selectedCategories.join(', ');
+  const sectionTitle =
+    selectedCategories.includes('All') || selectedCategories.length === 0
+      ? 'All Products'
+      : selectedCategories.join(', ');
+
+  if (loading) {
+    return <div className="loading">Loading products...</div>;
+  }
 
   return (
     <section className="shop-page">
-      <div className={`sidebar-shop-overlay ${isSidebarOpen ? 'sidebar-shop-overlay--visible' : ''}`} onClick={closeSidebar}></div>
+      <div
+        className={`sidebar-shop-overlay ${
+          isSidebarOpen ? 'sidebar-shop-overlay--visible' : ''
+        }`}
+        onClick={closeSidebar}
+      ></div>
       <aside className={`sidebar-shop ${isSidebarOpen ? 'sidebar-shop--open' : ''}`}>
         <div className="sidebar-shop-header">
           <h3 className="filter-title">Filters</h3>
-          <button className="sidebar-shop-close-btn" onClick={closeSidebar}>Close</button>
+          <button className="sidebar-shop-close-btn" onClick={closeSidebar}>
+            Close
+          </button>
         </div>
 
+        {/* Filters */}
         <div className="filter-section">
           <h4 className="filter-subtitle">Category</h4>
           <div className="checkbox-group">
@@ -113,7 +225,7 @@ const Shop = () => {
           <input
             type="range"
             min="0"
-            max="50"
+            max="100000"
             value={priceRange[0]}
             onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
             className="price-range"
@@ -121,14 +233,14 @@ const Shop = () => {
           <input
             type="range"
             min="0"
-            max="50"
+            max="100000"
             value={priceRange[1]}
             onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
             className="price-range"
           />
           <div className="price-range-labels">
-            <span>${priceRange[0]}</span>
-            <span>${priceRange[1]}</span>
+            <span>LKR {priceRange[0]}</span>
+            <span>LKR {priceRange[1]}</span>
           </div>
         </div>
 
@@ -153,6 +265,8 @@ const Shop = () => {
         <button className="filter-toggle-btn" onClick={toggleSidebar}>
           <FiFilter className="filter-icon" /> Show Filters
         </button>
+
+        {/* Shop search bar */}
         <div className="search-bar-shop">
           <form onSubmit={handleSearch} className="search-form-shop">
             <input
@@ -160,6 +274,8 @@ const Shop = () => {
               name="search"
               placeholder="Search products..."
               className="search-input-shop"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
             />
             <button type="submit" className="search-button-shop">
               <FiSearch />
@@ -168,31 +284,49 @@ const Shop = () => {
         </div>
 
         <h2 className="section-title">{sectionTitle}</h2>
-        <p className="section-subtitle">Browse our full selection of heartwarming gifts</p>
+        <p className="section-subtitle">
+          Browse our full selection of heartwarming gifts
+        </p>
 
         <div className="products-grid">
-          {filteredProducts.map((prod, i) => (
-            <div key={i} className="product-card">
-              <Link to={`/product/${i}`}>
-                <img
-                  src={prod.img}
-                  alt={prod.name}
-                  onError={(e) => {
-                    e.target.src = 'images/placeholder.png';
-                  }}
-                  className="product-image"
-                />
-              </Link>
-              <h3 className="product-name">{prod.name}</h3>
-              <p className="product-price">${prod.price.toFixed(2)}</p>
-              <div className="product-stars">
-                {[...Array(5)].map((_, j) => (
-                  <FiStar key={j} className={j < prod.rating ? 'star-filled' : 'star-empty'} />
-                ))}
-              </div>
-              <button className="add-to-cart-btn">Add to Cart</button>
+          {filteredProducts.length === 0 ? (
+            <div style={{ width: '100%', textAlign: 'center', padding: '2rem', color: '#888' }}>
+              No products found.
             </div>
-          ))}
+          ) : (
+            filteredProducts.map((prod, i) => (
+              <div key={prod.id || i} className="product-card">
+                <Link to={`/product/${prod.id}`}>
+                  <img
+                    src={prod.image || (prod.images && prod.images[0]) || '/images/placeholder.png'}
+                    alt={prod.name}
+                    onError={(e) => {
+                      e.target.src = '/images/placeholder.png';
+                    }}
+                    className="product-image"
+                  />
+                </Link>
+                <h3 className="product-name">{prod.name}</h3>
+                <p className="product-price">
+                  LKR {typeof prod.price === "number"
+                    ? prod.price.toLocaleString(undefined, { minimumFractionDigits: 2 })
+                    : "0.00"}
+                </p>
+                <div className="product-stars">
+                  {[...Array(5)].map((_, j) => (
+                    <FiStar key={j} className={j < Math.round(prod.avgRating || 0) ? 'star-filled' : 'star-empty'} />
+                  ))}
+                </div>
+                <button
+                  className="add-to-cart-btn"
+                  onClick={() => handleAddToCart(prod)}
+                  disabled={addingToCart[prod.id]}
+                >
+                  {addingToCart[prod.id] ? 'Adding...' : 'Add to Cart'}
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>

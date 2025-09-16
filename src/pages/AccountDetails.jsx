@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/FirebaseConfig";
+import { getUserDocument, updateUserDocument } from "../firebase/firebaseUtils";
 import "./AccountDetails.css";
 import logo from "../assets/logo.png";
+
+const categoriesList = [
+  "Gift Box / Personalized Gifts",
+  "Jewelry / Watches",
+  "Beauty/Cosmetics & Skin Care",
+  "Chocolates",
+  "Flowers",
+  "Soft Toys/Kids & Baby",
+  "Handmade Greeting Cards",
+  "Hand Bags/Fashion & Shoes",
+  "Perfumes & Fragrances",
+  "Home Decor & Homewares",
+  "Gift Vouchers",
+  "Resin Products"
+];
 
 const AccountDetails = () => {
   const [formData, setFormData] = useState({
@@ -16,15 +34,33 @@ const AccountDetails = () => {
 
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Load saved data on component mount
+  // Load user data from Firestore on component mount
   useEffect(() => {
-    const savedData = localStorage.getItem("accountDetails");
-    if (savedData) {
-      setFormData(JSON.parse(savedData));
-    }
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const response = await getUserDocument(currentUser.uid);
+        if (response.success) {
+          const userData = response.data;
+          setFormData({
+            firstName: userData.firstName || "",
+            lastName: userData.lastName || "",
+            email: userData.email || currentUser.email || "",
+            address: userData.address || "",
+            phone: userData.phone || "",
+            birthday: userData.birthday || "",
+            category: userData.category || "",
+          });
+        }
+      } else {
+        navigate("/signin");
+      }
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   const validate = () => {
     let newErrors = {};
@@ -44,25 +80,34 @@ const AccountDetails = () => {
     setErrors(prev => ({ ...prev, [name]: "" }));
   };
 
-  const handleSignOut = () => {
-    localStorage.removeItem("accountDetails");
+  const handleSignOut = async () => {
+    await auth.signOut();
     navigate("/signin");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setMessage("");
     } else {
-      localStorage.setItem("accountDetails", JSON.stringify(formData));
-      setMessage("Changes saved successfully!");
-      setTimeout(() => {
-        navigate("/profile");
-      }, 2000); // Redirect to UserProfile after 2 seconds
+      setLoading(true);
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        await updateUserDocument(currentUser.uid, formData);
+        setMessage("Changes saved successfully!");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 1500);
+      }
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <div className="loading">Loading account details...</div>;
+  }
 
   return (
     <div className="account-container">
@@ -72,7 +117,6 @@ const AccountDetails = () => {
           <ul>
             <li><a href="/profile">Profile</a></li>
             <li className="active">Account Details</li>
-            <li><a href="/payment-methods">Payment Methods</a></li>
             <li><a href="/order-history">Order History</a></li>
           </ul>
         </nav>
@@ -160,25 +204,24 @@ const AccountDetails = () => {
             </div>
 
             <div className="form-group">
-              <label>Favourite Gift Categories</label>
+              <label>Favourite Gift Category</label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
               >
                 <option value="">Select</option>
-                <option value="Toys">Toys</option>
-                <option value="Handmade">Handmade Items</option>
-                <option value="Bouquets">Bouquets</option>
-                <option value="Cards">Cards</option>
-                <option value="Chocolates">Chocolates</option>
-                <option value="Gift">Gift Packs</option>
+                {categoriesList.map(opt => (
+                  <option value={opt} key={opt}>{opt}</option>
+                ))}
               </select>
               {errors.category && <span className="error">{errors.category}</span>}
             </div>
           </div>
 
-          <button type="submit" className="save-btn">Save Changes</button>
+          <button type="submit" className="save-btn" disabled={loading}>
+            {loading ? "Saving..." : "Save Changes"}
+          </button>
           {message && <p className="success-message">{message}</p>}
         </form>
       </div>

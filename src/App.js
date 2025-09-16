@@ -13,11 +13,11 @@ import SignUp from "./pages/SignUp";
 import UserProfile from "./pages/UserProfile";
 import ForgotPassword from "./pages/ForgotPassword";
 import AccountDetails from "./pages/AccountDetails";
-import PaymentMethods from "./pages/PaymentMethods";
 import OrderHistory from "./pages/OrderHistory";
 import Product from './pages/Product';
-
-
+import Categories from "./sections/Categories";
+import ContactUs from './pages/ContactUs';
+import CategoryPreferences from './pages/CategoryPreferences';
 import './App.css';
 
 function App() {
@@ -33,12 +33,15 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/account" element={<AccountDetails />} />
-        <Route path="/payment-methods" element={<PaymentMethods />} />
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/select-preferences" element={<CategoryPreferences />} />
+
       </Routes>
       <Footer />
     </Router>

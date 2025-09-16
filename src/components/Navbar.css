@@ -121,20 +121,21 @@
     flex-direction: column;
     background: #F8D7E5; /* Matching pink background */
     width: 100%;
-    top: 80px;
+    top: 50px;
     left: 0;
-    padding: 1rem;
+    padding: 0;
     gap: 1rem;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: all 0.3s ease-out;
     z-index: 1000;
   }
   
   .navbar-links.active {
     max-height: 300px;
+    padding: 50px  0;
   }
   
   .navbar-actions {

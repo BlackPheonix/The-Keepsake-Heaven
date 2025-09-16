@@ -104,9 +104,16 @@ body {
   margin-bottom: 15px;
 }
 
-.edit-button {
-  background-color: #9ba44c;
-  color: white;
+/* ===== Buttons Section ===== */
+.profile-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.edit-button,
+.signout-button {
   font-weight: bold;
   border: none;
   padding: 10px 20px;
@@ -115,8 +122,23 @@ body {
   transition: all 0.3s ease;
 }
 
+.edit-button {
+  background-color: #9ba44c;
+  color: white;
+}
+
 .edit-button:hover {
   background-color: #7e882f;
+  transform: scale(1.05);
+}
+
+.signout-button {
+  background-color: #8b2e24;
+  color: white;
+}
+
+.signout-button:hover {
+  background-color: #72231c;
   transform: scale(1.05);
 }
 

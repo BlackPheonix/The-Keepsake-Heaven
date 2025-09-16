@@ -48,6 +48,7 @@
   border-bottom-right-radius: 70px;
   padding: 40px 60px;
   position: relative;
+  overflow-y: auto;
 }
 
 .header h2 {
@@ -92,20 +93,25 @@
 .order-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .order-item {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.order-summary {
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+  background-color: #f0f0f0;
   cursor: pointer;
 }
 
-.order-item:hover {
-  background-color: #e9e9e9;
+.order-summary:hover {
+  background-color: #e6e6e6;
 }
 
 .status {
@@ -119,42 +125,43 @@
   background-color: #2e7d32;
 }
 
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.order-details {
+  padding: 15px 25px;
+  background-color: #fff;
+  border-top: 1px solid #ccc;
 }
 
-.popup {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  position: relative;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+.order-details p {
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .order-items {
   list-style: none;
   padding: 0;
+  margin-bottom: 15px;
 }
 
 .order-items li {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.order-items input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.reorder-btn {
+  background-color: #4b5e28;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reorder-btn:hover {
+  background-color: #3c471f;
 }

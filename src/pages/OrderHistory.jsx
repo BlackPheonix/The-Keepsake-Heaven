@@ -1,56 +1,114 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase/FirebaseConfig";
+import { addToCart } from "../firebase/firebaseUtils";
 import "./OrderHistory.css";
 import logo from "../assets/logo.png";
 
 const OrderHistory = () => {
   const navigate = useNavigate();
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedItems, setSelectedItems] = useState({});
 
   const orders = [
     {
-      id: "xxxx xxxx xxxx xxxx",
+      id: "ORD1234567890",
       customer: "Asheli Dias Negombo",
       status: "Delivered",
-      details: "This order was delivered on October 15, 2023.",
+      details: "Delivered on October 15, 2023",
       items: [
-        { name: "Handmade Greeting Card", quantity: 2, price: "Rs.250.00" },
-        { name: "Custom Gift Basket", quantity: 1, price: "Rs.5000.00" },
+        { name: "Handmade Greeting Card", quantity: 2, price: "250.00" },
+        { name: "Custom Gift Basket", quantity: 1, price: "5000.00" },
       ],
     },
     {
-      id: "xxxx xxxx xxxx xxxx",
-      customer: "Asheli Dias Colombo 03",
+      id: "ORD0987654321",
+      customer: "Dulneth Perera Colombo 03",
       status: "Delivered",
-      details: "This order was delivered on October 10, 2023.",
+      details: "Delivered on October 10, 2023",
       items: [
-        { name: "Personalized Mug", quantity: 3, price: "Rs.1250.00" },
-        { name: "Photo Frame", quantity: 1, price: "Rs.3000.00" },
+        { name: "Personalized Mug", quantity: 3, price: "1250.00" },
+        { name: "Photo Frame", quantity: 1, price: "3000.00" },
       ],
     },
     {
-      id: "xxxx xxxx xxxx xxxx",
-      customer: "Asheli Dias Negombo",
+      id: "ORD1122334455",
+      customer: "Rajeendra Wijesinghe Badulla",
       status: "Delivered",
-      details: "This order was delivered on October 5, 2023.",
+      details: "Delivered on October 5, 2023",
       items: [
-        { name: "Handmade Candle Set", quantity: 1, price: "Rs.2000.00" },
-        { name: "Custom Jewelry Box", quantity: 1, price: "Rs.1500.00" },
+        { name: "Handmade Candle Set", quantity: 1, price: "2000.00" },
+        { name: "Custom Jewelry Box", quantity: 1, price: "1500.00" },
       ],
     },
   ];
+
+  const toggleOrder = (orderId) => {
+    setExpandedOrderId(orderId === expandedOrderId ? null : orderId);
+  };
 
   const handleSignOut = () => {
     navigate("/signin");
   };
 
-  const handleOrderClick = (order) => {
-    setSelectedOrder(order);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
   };
 
-  const closePopup = () => {
-    setSelectedOrder(null);
+  const handleCheckboxChange = (orderId, itemIndex) => {
+    setSelectedItems((prev) => {
+      const key = `${orderId}-${itemIndex}`;
+      return {
+        ...prev,
+        [key]: !prev[key],
+      };
+    });
   };
+
+  const handleAddToCart = async (orderId) => {
+    const user = auth.currentUser;
+    if (!user) {
+      navigate("/signin");
+      return;
+    }
+
+    const order = orders.find((o) => o.id === orderId);
+    if (!order) return;
+
+    const selected = order.items.filter((_, index) =>
+      selectedItems[`${orderId}-${index}`]
+    );
+
+    if (selected.length === 0) {
+      alert("Please select at least one item to add to cart.");
+      return;
+    }
+
+    try {
+      for (const item of selected) {
+        const productToAdd = {
+          name: item.name,
+          quantity: item.quantity,
+          price: parseFloat(item.price),
+        };
+        await addToCart(user.uid, productToAdd);
+      }
+      alert("Selected items added to cart!");
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
+      alert("Something went wrong while adding to cart.");
+    }
+  };
+
+  const filteredOrders = orders.filter((order) => {
+    const orderIdMatch = order.id.toLowerCase().includes(searchQuery);
+    const customerMatch = order.customer.toLowerCase().includes(searchQuery);
+    const itemMatch = order.items.some((item) =>
+      item.name.toLowerCase().includes(searchQuery)
+    );
+    return orderIdMatch || customerMatch || itemMatch;
+  });
 
   return (
     <div className="order-history-container">
@@ -60,7 +118,6 @@ const OrderHistory = () => {
           <ul>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/account">Account Details</a></li>
-            <li><a href="/payment-methods">Payment Methods</a></li>
             <li className="active">Order History</li>
           </ul>
         </nav>
@@ -74,37 +131,59 @@ const OrderHistory = () => {
         </div>
 
         <div className="search-bar">
-          <input type="text" placeholder="Search for Order ID or Product" />
+          <input
+            type="text"
+            placeholder="Search for Order ID, Customer, or Product"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
         </div>
 
         <div className="order-list">
-          {orders.map((order, index) => (
-            <div key={index} className="order-item" onClick={() => handleOrderClick(order)}>
-              <span>{order.id}</span>
-              <span>{order.customer}</span>
-              <span className={`status ${order.status.toLowerCase()}`}>{order.status}</span>
-            </div>
-          ))}
+          {filteredOrders.length > 0 ? (
+            filteredOrders.map((order, index) => (
+              <div key={index} className="order-item">
+                <div
+                  className="order-summary"
+                  onClick={() => toggleOrder(order.id)}
+                >
+                  <span>{order.id}</span>
+                  <span>{order.customer}</span>
+                  <span className={`status ${order.status.toLowerCase()}`}>
+                    {order.status}
+                  </span>
+                </div>
+
+                {expandedOrderId === order.id && (
+                  <div className="order-details">
+                    <p>{order.details}</p>
+                    <ul className="order-items">
+                      {order.items.map((item, i) => (
+                        <li key={i}>
+                          <input
+                            type="checkbox"
+                            checked={!!selectedItems[`${order.id}-${i}`]}
+                            onChange={() => handleCheckboxChange(order.id, i)}
+                          />{" "}
+                          {item.name} - Qty: {item.quantity} - Rs.{item.price}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      className="add-to-cart-btn"
+                      onClick={() => handleAddToCart(order.id)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No orders match your search.</p>
+          )}
         </div>
       </div>
-
-      {selectedOrder && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <button className="close-btn" onClick={closePopup}>×</button>
-            <h3>Order Details</h3>
-            <p>{selectedOrder.details}</p>
-            <h4>Items:</h4>
-            <ul className="order-items">
-              {selectedOrder.items.map((item, index) => (
-                <li key={index}>
-                  {item.name} - Quantity: {item.quantity} - Price: {item.price}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
