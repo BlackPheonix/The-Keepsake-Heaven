@@ -17,7 +17,11 @@ import OrderHistory from "./pages/OrderHistory";
 import Product from './pages/Product';
 import Categories from "./sections/Categories";
 import ContactUs from './pages/ContactUs';
+<<<<<<< HEAD
 import CategoryPreferences from './pages/CategoryPreferences';
+=======
+
+>>>>>>> 262353982ba57221bfe0578b1e4b0a470efa4bae
 import './App.css';
 
 function App() {
@@ -40,8 +44,11 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/contact" element={<ContactUs />} />
+<<<<<<< HEAD
         <Route path="/select-preferences" element={<CategoryPreferences />} />
 
+=======
+>>>>>>> 262353982ba57221bfe0578b1e4b0a470efa4bae
       </Routes>
       <Footer />
     </Router>
