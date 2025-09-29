@@ -1,0 +1,125 @@
+/* Dashboard.css */
+
+.dashboard {
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+  background: #FAFAFA;
+  color: #1e1e1e;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart-container,
+.pie-chart-container,
+.table-container,
+.recent-orders,
+.stock-alerts {
+  background: #F3F5E6;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px #99BC8533;
+  padding: 28px 24px;
+  flex: 1 1 350px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: none;
+}
+
+.chart-container h3,
+.pie-chart-container h3,
+.table-container h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.dashboard-table th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+  color: #333;
+}
+
+.dashboard-table td {
+  font-size: 0.95rem;
+}
+
+.status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  display: inline-block;
+}
+
+.status-badge.completed {
+  background-color: #4ECDC4;
+  color: white;
+}
+
+.status-badge.shipped {
+  background-color: #FFD93D;
+  color: #222;
+}
+
+.status-badge.processing {
+  background-color: #FF6B6B;
+  color: white;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #4ECDC4;
+  transition: transform 0.2s ease;
+}
+
+.action-buttons button:hover {
+  transform: scale(1.1);
+  color: #FF6B6B;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-row {
+    flex-direction: column;
+  }
+}

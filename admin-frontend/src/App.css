@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #FAF1E6;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 250px;
+  transition: margin-left 0.3s;
+  background: #FDFAF6;
+  color: #222;
+  min-width: 0; /* Add this to fix flexbox overflow issues */
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: 20px;
+  background-color: #FDFAF6;
+  overflow-y: auto;
+  color: #222;
+  width: 100%; /* Ensure full width */
+  max-width: 100%; /* Prevent horizontal overflow */
+}
+
+/* Dashboard specific styles */
+.dashboard {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.dashboard-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+/* Fix for sidebar overlap */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px;
+  }
+  
+  .dashboard-row {
+    flex-direction: column;
+  }
+}
+
+/* Ensure tables and charts are responsive */
+table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.chart-container {
+  width: 100%;
+  min-width: 0; /* Prevent chart overflow */
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: #75A47F;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #75A47F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a8a65;
+}
+
+.icon-gold {
+  color: #FFD700 !important;
+}
+.icon-green {
+  color: #99BC85 !important;
+}

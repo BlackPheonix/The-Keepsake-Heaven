@@ -1,0 +1,65 @@
+.categories {
+  background: #f8f9fa;
+  padding: 3rem 0;
+}
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
+  gap: 2rem;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+.category-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: center;
+  padding: 1.2rem;
+  transition: box-shadow .22s;
+}
+.category-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+}
+.category-card img {
+  width: 100%;
+  max-width: 210px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.category-card h3 {
+  margin: 1rem 0 0.6rem;
+  font-size: 1.18rem;
+}
+.explore-btn {
+  background: #4ecdc4;
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .22s;
+}
+.explore-btn:hover {
+  background: #30b3a6;
+}
+
+.view-all-container {
+  text-align: center;
+  margin-top: 1.3rem;
+}
+.view-all-cat {
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 21px;
+  padding: 0.85rem 2.7rem;
+  font-weight: 600;
+  font-size: 1.04rem;
+  cursor: pointer;
+  transition: background .22s;
+}
+.view-all-cat:hover {
+  background: #ff5252;
+}

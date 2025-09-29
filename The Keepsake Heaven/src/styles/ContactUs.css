@@ -1,0 +1,265 @@
+.contactus-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 3rem 1rem;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Center the title at the top */
+.contactus-title {
+  color: #d183ae;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2.2rem;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 1px;
+}
+
+.contactus-main-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.contactus-details-card {
+  background: #f8f8f8;
+  border-radius: 16px;
+  padding: 2.2rem 2.5rem;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  font-size: 1.11rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.contactus-details-card h2 {
+  color: #215b2d;
+  margin-bottom: 1.1rem;
+  font-size: 1.35rem;
+  text-align: left;
+}
+
+.contactus-details-card address {
+  font-style: normal;
+  margin-bottom: 1.2rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.contactus-details-card a {
+  color: #943D5C;
+  text-decoration: none;
+}
+
+.contactus-details-card a:hover {
+  text-decoration: underline;
+}
+
+.contactus-map {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+  margin-bottom: 1.5rem;
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  background: #fff;
+}
+
+.contactus-map iframe {
+  border: 0;
+  border-radius: 16px;
+  width: 100%;
+  height: 320px;
+  display: block;
+}
+
+/* Review Section (as previously provided) */
+.customer-review-section {
+  width: 100%;
+  max-width: 650px;
+  margin: 2.5rem auto 0 auto;
+  background: #fff5fa;
+  border-radius: 14px;
+  box-shadow: 0 2px 14px rgba(145, 61, 92, 0.07);
+  padding: 2rem 2.5rem 2rem 2.5rem;
+  text-align: left;
+}
+
+.review-section-title {
+  color: #d183ae;
+  font-size: 1.5rem;
+  margin-bottom: 1.1rem;
+  font-weight: 600;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.2rem;
+}
+
+.review-form textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d183ae;
+  font-size: 1rem;
+  padding: 0.8rem;
+  resize: vertical;
+  min-height: 60px;
+  background: #fff;
+  margin-top: 0.3rem;
+}
+
+.review-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 1.35rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.star.filled {
+  color: #ffbb3b;
+  text-shadow: 0 1px 4px #ffbb3b44;
+}
+
+.review-submit-btn {
+  background: #d183ae;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 30px;
+  font-weight: 600;
+  font-size: 1.08rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s;
+}
+
+.review-submit-btn:hover {
+  background: #b23589;
+}
+
+.review-msg {
+  margin-top: 0.3rem;
+  color: #b23589;
+  font-size: 1rem;
+}
+
+.customer-reviews-list {
+  margin-top: 1rem;
+}
+
+.customer-review {
+  background: #faf6fb;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 1px 5px rgba(145, 61, 92, 0.03);
+}
+
+.review-stars-display {
+  margin-bottom: 0.4rem;
+}
+
+.review-text {
+  font-size: 1.08rem;
+  color: #2c2c2c;
+}
+
+.review-date {
+  font-size: 0.87rem;
+  color: #888;
+  margin-top: 0.3rem;
+}
+
+.no-reviews-yet {
+  color: #b23589;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* Responsive design for the contact info/map */
+@media (max-width: 1000px) {
+  .contactus-main-flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .contactus-details-card,
+  .contactus-map {
+    max-width: 100%;
+    width: 100%;
+    min-width: unset;
+  }
+  .contactus-map iframe {
+    height: 220px;
+  }
+}
+
+.auth-status {
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.review-form input:disabled,
+.review-form textarea:disabled {
+  background-color: #f8f9fa !important;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.review-form button:disabled {
+  background-color: #e9ecef !important;
+  color: #6c757d !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.review-form button:disabled:hover {
+  background-color: #e9ecef !important;
+  transform: none !important;
+}
+
+.star-rating {
+  transition: opacity 0.3s ease;
+}
+
+.review-form .star-rating span {
+  cursor: pointer;
+}
+
+.review-form .star-rating[style*="pointer-events: none"] span {
+  cursor: not-allowed;
+}
+
+/* Loading state for auth */
+.auth-loading {
+  padding: 0.5rem;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}

@@ -1,0 +1,13 @@
+.customers {
+  padding: 30px 30px 30px 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #FDFAF6;
+  color: #222;
+}
+
+@media (max-width: 768px) {
+  .customers {
+    padding: 20px 10px 20px 0;
+  }
+} 

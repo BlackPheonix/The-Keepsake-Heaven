@@ -1,0 +1,173 @@
+.orders-page {
+  padding: 20px;
+}
+
+.orders-page h1 {
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.orders-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 16px #99BC8533;
+  background: #F3F5E6;
+  border: none;
+}
+
+.summary-card h3 {
+  margin: 0 0 10px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.orders-controls {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search-bar {
+  flex: 2;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.status-filter {
+  flex: 1;
+}
+
+.status-filter select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #75A47F;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.export-btn:hover {
+  background-color: #5a8a65;
+}
+
+.orders-table-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 16px #99BC8533;
+  background: #F3F5E6;
+  border: none;
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th, 
+.orders-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.orders-table th {
+  font-weight: 500;
+  color: #666;
+  font-size: 14px;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.processing {
+  background-color: #fff8e6;
+  color: #FF9800;
+}
+
+.status-badge.shipped {
+  background-color: #e6f2ff;
+  color: #2196F3;
+}
+
+.status-badge.completed {
+  background-color: #e6f7e6;
+  color: #4CAF50;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.view-btn, 
+.print-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.view-btn:hover {
+  color: #75A47F;
+}
+
+.print-btn:hover {
+  color: #2196F3;
+}
+
+@media (max-width: 768px) {
+  .orders-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-bar,
+  .status-filter {
+    width: 100%;
+  }
+}
